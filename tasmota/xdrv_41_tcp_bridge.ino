@@ -108,7 +108,7 @@ void TCPLoop(void)
 
       for (uint32_t i=0; i<nitems(client_tcp); i++) {
         WiFiClient &client = client_tcp[i];
-        if (client) { client.write(tcp_buf, buf_len); }
+        if (client) { client.write(tcp_buf, buf_len); client.flush(); }
       }
     }
 
@@ -126,6 +126,7 @@ void TCPLoop(void)
       if (buf_len > 0) {
         AddLog(LOG_LEVEL_DEBUG, PSTR(D_LOG_TCP "to MCU/%d: %*_H"), i+1, buf_len, tcp_buf);
         TCPSerial->write(tcp_buf, buf_len);
+        TCPSerial->flush();
       }
     }
 
